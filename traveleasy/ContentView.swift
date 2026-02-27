@@ -8,17 +8,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var splashFinished = false
+    @AppStorage("isAuthenticated") private var isAuthenticated: Bool = false
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        Group {
+            if !splashFinished {
+                SplashView(isFinished: $splashFinished)
+            } else if !isAuthenticated {
+                AuthView(isAuthenticated: $isAuthenticated)
+            } else {
+                TabView {
+                    HomeView()
+                        .tabItem { Label("Home", systemImage: "house.fill") }
+
+                    ExploreView()
+                        .tabItem { Label("Explore", systemImage: "magnifyingglass") }
+
+                    FavoritesView()
+                        .tabItem { Label("Favorites", systemImage: "heart.fill") }
+
+                    ProfileView()
+                        .tabItem { Label("Profile", systemImage: "person.crop.circle") }
+                }
+            }
         }
-        .padding()
     }
 }
 
 #Preview {
     ContentView()
 }
+

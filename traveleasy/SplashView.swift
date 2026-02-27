@@ -14,19 +14,36 @@ struct SplashView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 16) {
-                Image(systemName: "airplane.circle.fill")
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.white, .white.opacity(0.7))
-                    .font(.system(size: 88))
-                    .scaleEffect(animate ? 1.0 : 0.8)
-                    .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 6)
-                    .rotationEffect(.degrees(animate ? 0 : -8))
-                    .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: animate)
+                Group {
+                    if let uiImage = UIImage(named: "AppLogo") {
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 120, height: 120)
+                            .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
+                            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 6)
+                            .scaleEffect(animate ? 1.0 : 0.9)
+                            .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: animate)
+                    } else {
+                        Image(systemName: "airplane.circle.fill")
+                            .symbolRenderingMode(.palette)
+                            .foregroundStyle(.white, .white.opacity(0.7))
+                            .font(.system(size: 88))
+                            .scaleEffect(animate ? 1.0 : 0.8)
+                            .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 6)
+                            .rotationEffect(.degrees(animate ? 0 : -8))
+                            .animation(.easeInOut(duration: 0.9).repeatForever(autoreverses: true), value: animate)
+                    }
+                }
 
                 Text("TravelEasy")
                     .font(.largeTitle.bold())
                     .foregroundStyle(.white)
                     .opacity(animate ? 1 : 0.6)
+
+                Text("Your trip, simplified")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.9))
 
                 ProgressView()
                     .tint(.white)
