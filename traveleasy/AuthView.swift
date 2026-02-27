@@ -53,7 +53,7 @@ struct AuthView: View {
                             .focused($focusedField, equals: .email)
                             .submitLabel(.next)
                             .onSubmit { focusedField = .email }
-                            .padding()
+                            .frame(height: 48)
                             .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
                     }
 
@@ -65,7 +65,7 @@ struct AuthView: View {
                         .focused($focusedField, equals: .email)
                         .submitLabel(.next)
                         .onSubmit { focusedField = .password }
-                        .padding()
+                        .frame(height: 48)
                         .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
 
                     HStack(spacing: 0) {
@@ -93,10 +93,12 @@ struct AuthView: View {
                                 .padding(.vertical, 10)
                         }
                     }
+                    .padding(.vertical, 0)
                     .background(
                         RoundedRectangle(cornerRadius: 12, style: .continuous)
                             .fill(.thinMaterial)
                     )
+                    .frame(height: 48)
                 }
 
                 Button(action: primaryAction) {
@@ -252,3 +254,4 @@ struct ForgotPasswordView: View {
         AuthView(isAuthenticated: isAuthed)
     }
 }
+
