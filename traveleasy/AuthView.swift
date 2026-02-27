@@ -53,8 +53,10 @@ struct AuthView: View {
                             .focused($focusedField, equals: .email)
                             .submitLabel(.next)
                             .onSubmit { focusedField = .email }
+                            .padding(.horizontal, 16)
                             .frame(height: 48)
-                            .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                            .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color(.separator), lineWidth: 1))
                     }
 
                     TextField("Email", text: $email)
@@ -65,8 +67,10 @@ struct AuthView: View {
                         .focused($focusedField, equals: .email)
                         .submitLabel(.next)
                         .onSubmit { focusedField = .password }
+                        .padding(.horizontal, 16)
                         .frame(height: 48)
-                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color(.separator), lineWidth: 1))
 
                     HStack(spacing: 0) {
                         Group {
@@ -84,21 +88,18 @@ struct AuthView: View {
                                     .onSubmit(primaryAction)
                             }
                         }
-                        .padding(.leading)
+                        .padding(.leading, 16)
 
                         Button(action: { showPassword.toggle() }) {
                             Image(systemName: showPassword ? "eye.slash" : "eye")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(.tint)
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 10)
                         }
                     }
-                    .padding(.vertical, 0)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12, style: .continuous)
-                            .fill(.thinMaterial)
-                    )
                     .frame(height: 48)
+                    .background(Color(.secondarySystemBackground), in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous).strokeBorder(Color(.separator), lineWidth: 1))
                 }
 
                 Button(action: primaryAction) {
