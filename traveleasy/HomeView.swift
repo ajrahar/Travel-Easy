@@ -9,33 +9,18 @@ struct HomeView: View {
                     TabView {
                         ForEach(sampleDestinations.prefix(4)) { destination in
                             ZStack(alignment: .bottomLeading) {
-                                AsyncImage(url: destination.imageURL) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ZStack { Color.gray.opacity(0.2); ProgressView() }
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .scaledToFill()
-                                    case .failure:
-                                        ZStack {
-                                            Color.gray.opacity(0.2)
-                                            Image(systemName: destination.symbol)
-                                                .font(.system(size: 48))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                    @unknown default:
-                                        Color.gray.opacity(0.2)
-                                    }
-                                }
-                                .frame(height: 200)
-                                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                                DestinationImage(
+                                    url: destination.imageURL,
+                                    symbol: destination.symbol,
+                                    height: Layout.Image.carouselHeight,
+                                    cornerRadius: Layout.CornerRadius.large
+                                )
 
                                 LinearGradient(colors: [Color.black.opacity(0.0), Color.black.opacity(0.55)], startPoint: .center, endPoint: .bottom)
-                                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
-                                    .frame(height: 200)
+                                    .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius.large, style: .continuous))
+                                    .frame(height: Layout.Image.carouselHeight)
 
-                                VStack(alignment: .leading, spacing: 4) {
+                                VStack(alignment: .leading, spacing: Layout.Spacing.tight) {
                                     Text(destination.name)
                                         .font(.headline)
                                         .foregroundStyle(.white)
@@ -45,10 +30,10 @@ struct HomeView: View {
                                 }
                                 .padding()
                             }
-                            .padding(.vertical, 4)
+                            .padding(.vertical, Layout.Spacing.tight)
                         }
                     }
-                    .frame(height: 220)
+                    .frame(height: Layout.Image.carouselContainerHeight)
                     .tabViewStyle(.page(indexDisplayMode: .automatic))
                     .listRowInsets(EdgeInsets())
                 }

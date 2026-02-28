@@ -1,9 +1,10 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @AppStorage("isAuthenticated") private var isAuthenticated: Bool = false
-    @AppStorage("storedName") private var storedName: String = ""
-    @AppStorage("storedEmail") private var storedEmail: String = ""
+    @AppStorage(AppStorageKeys.isAuthenticated) private var isAuthenticated: Bool = false
+    @AppStorage(AppStorageKeys.storedName) private var storedName: String = ""
+    @AppStorage(AppStorageKeys.storedEmail) private var storedEmail: String = ""
+    @AppStorage(AppStorageKeys.storedPassword) private var storedPassword: String = ""
 
     var body: some View {
         NavigationStack {
@@ -32,7 +33,7 @@ struct ProfileView: View {
                 Section("Account") {
                     if isAuthenticated {
                         Button(role: .destructive) {
-                            isAuthenticated = false
+                            signOut()
                         } label: {
                             Label("Sign Out", systemImage: "rectangle.portrait.and.arrow.right")
                         }
@@ -60,11 +61,25 @@ struct ProfileView: View {
             .navigationTitle("Profile")
         }
     }
+
+    private func signOut() {
+        isAuthenticated = false
+        storedName = ""
+        storedEmail = ""
+        storedPassword = ""
+    }
 }
 struct EmergencyRow: View {
     let label: String
     let number: String
     let systemImage: String
+    @State private var showInvalidNumberAlert = false
+
+    private var telURL: URL? {
+        let digits = number.filter { $0.isNumber || $0 == "+" }
+        guard !digits.isEmpty else { return nil }
+        return URL(string: "tel://\(digits)")
+    }
 
     var body: some View {
         Button(action: call) {
@@ -80,11 +95,21 @@ struct EmergencyRow: View {
             }
         }
         .buttonStyle(.plain)
+        .disabled(telURL == nil)
+        .accessibilityHint(telURL == nil ? "Invalid phone number" : "Double tap to call")
+        .alert("Invalid number", isPresented: $showInvalidNumberAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text("This emergency number could not be used to place a call.")
+        }
     }
 
     private func call() {
-        guard let url = URL(string: "tel://\(number)") else { return }
-        UIApplication.shared.open(url)
+        if let url = telURL {
+            UIApplication.shared.open(url)
+        } else {
+            showInvalidNumberAlert = true
+        }
     }
 }
 

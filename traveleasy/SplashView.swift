@@ -6,6 +6,7 @@ import SwiftUI
 
 struct SplashView: View {
     @Binding var isFinished: Bool
+    @ScaledMetric(relativeTo: .largeTitle) private var logoSize: CGFloat = 88
     @State private var animate = false
 
     var body: some View {
@@ -28,7 +29,7 @@ struct SplashView: View {
                         Image(systemName: "airplane.circle.fill")
                             .symbolRenderingMode(.palette)
                             .foregroundStyle(.white, .white.opacity(0.7))
-                            .font(.system(size: 88))
+                            .font(.system(size: logoSize))
                             .scaleEffect(animate ? 1.0 : 0.8)
                             .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 6)
                             .rotationEffect(.degrees(animate ? 0 : -8))
@@ -50,6 +51,8 @@ struct SplashView: View {
                     .scaleEffect(1.2)
                     .padding(.top, 8)
             }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("TravelEasy. Your trip, simplified.")
             .padding()
         }
         .onAppear {

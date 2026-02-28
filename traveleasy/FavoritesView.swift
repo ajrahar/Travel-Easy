@@ -1,21 +1,22 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    // Placeholder favorites
-    @State private var favorites: [Destination] = []
+    @EnvironmentObject var favoritesStore: FavoritesStore
 
     var body: some View {
         NavigationStack {
             Group {
-                if favorites.isEmpty {
-                    ContentUnavailableView("No favorites yet", systemImage: "heart", description: Text("Save places you love to find them quickly."))
+                if favoritesStore.favorites.isEmpty {
+                    ContentUnavailableView(L10n.noFavoritesYet, systemImage: "heart", description: Text(L10n.noFavoritesDescription))
                 } else {
-                    List(favorites) { destination in
-                        DestinationRow(destination: destination)
+                    List(favoritesStore.favorites) { destination in
+                        NavigationLink(destination: DestinationDetailView(destination: destination)) {
+                            DestinationRow(destination: destination)
+                        }
                     }
                 }
             }
-            .navigationTitle("Favorites")
+            .navigationTitle(L10n.tabFavorites)
         }
     }
 }

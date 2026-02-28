@@ -7,15 +7,15 @@ struct ExploreView: View {
         NavigationStack {
             List {
                 if query.isEmpty {
-                    Section("Browse by Region") {
-                        ForEach(["Sumatra", "Java", "Bali & Nusa Tenggara", "Kalimantan", "Sulawesi", "Papua"], id: \.self) { region in
+                    Section(L10n.browseByRegion) {
+                        ForEach(allRegions, id: \.self) { region in
                             NavigationLink(destination: RegionDetailView(region: region)) {
                                 Label(region, systemImage: "map")
                             }
                         }
                     }
                 } else {
-                    Section("Results") {
+                    Section(L10n.results) {
                         ForEach(sampleDestinations.filter { $0.name.localizedCaseInsensitiveContains(query) || $0.region.localizedCaseInsensitiveContains(query) }) { destination in
                             NavigationLink(destination: DestinationDetailView(destination: destination)) {
                                 DestinationRow(destination: destination)
@@ -24,8 +24,8 @@ struct ExploreView: View {
                     }
                 }
             }
-            .navigationTitle("Explore")
-            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search destinations, food, culture…")
+            .navigationTitle(L10n.tabExplore)
+            .searchable(text: $query, placement: .navigationBarDrawer(displayMode: .always), prompt: L10n.searchPrompt)
         }
     }
 }

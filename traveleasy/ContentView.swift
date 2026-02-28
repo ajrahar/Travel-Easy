@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var splashFinished = false
-    @AppStorage("isAuthenticated") private var isAuthenticated: Bool = false
+    @AppStorage(AppStorageKeys.isAuthenticated) private var isAuthenticated: Bool = false
     
     var body: some View {
         Group {
@@ -20,16 +20,16 @@ struct ContentView: View {
             } else {
                 TabView {
                     HomeView()
-                        .tabItem { Label("Home", systemImage: "house.fill") }
+                        .tabItem { Label(L10n.tabHome, systemImage: "house.fill") }
 
                     ExploreView()
-                        .tabItem { Label("Explore", systemImage: "magnifyingglass") }
+                        .tabItem { Label(L10n.tabExplore, systemImage: "magnifyingglass") }
 
                     FavoritesView()
-                        .tabItem { Label("Favorites", systemImage: "heart.fill") }
+                        .tabItem { Label(L10n.tabFavorites, systemImage: "heart.fill") }
 
                     ProfileView()
-                        .tabItem { Label("Profile", systemImage: "person.crop.circle") }
+                        .tabItem { Label(L10n.tabProfile, systemImage: "person.crop.circle") }
                 }
             }
         }
@@ -38,5 +38,6 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(FavoritesStore())
 }
 
